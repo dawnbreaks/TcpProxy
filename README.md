@@ -1,7 +1,7 @@
 TcpProxy
 ========
 
-Yet another Tcp proxy server.
+Yet another tcp proxy server.
 
 
 Features
