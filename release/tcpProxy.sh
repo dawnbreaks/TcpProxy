@@ -10,4 +10,3 @@ fi
 
 echo "starting service....."
 nohup java -cp ./dependency/*:./*:./config   com.lubin.tcpproxy.TcpProxyServer  2>&1 >> ./tcpProxy.log  &
-~                                                                                                           
