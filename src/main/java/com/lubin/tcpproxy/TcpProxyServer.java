@@ -115,22 +115,23 @@ public class TcpProxyServer {
 	}
 	
 	
-	public static LogLevel getIoLogLevel(){
+	public static boolean isDebug(){
 		
-		LogLevel logLevel = LogLevel.ERROR;
-    	String ioLogLevel = TcpProxyServer.getConfig().getString("tcpProxyServer.ioLogLevel");
-    	if(ioLogLevel.equalsIgnoreCase("error")){
-    		logLevel = LogLevel.ERROR;
-    	}else if(ioLogLevel.equalsIgnoreCase("warn")){
-    		logLevel = LogLevel.WARN;
-    	}else if(ioLogLevel.equalsIgnoreCase("info")){
-    		logLevel = LogLevel.INFO;
-    	}else if(ioLogLevel.equalsIgnoreCase("debug")){
-    		logLevel = LogLevel.DEBUG;
-    	}else if(ioLogLevel.equalsIgnoreCase("trace")){
-    		logLevel = LogLevel.TRACE;
-    	}
+//		LogLevel logLevel = LogLevel.ERROR;
     	
-    	return logLevel;
+//    	if(ioLogLevel.equalsIgnoreCase("error")){
+//    		logLevel = LogLevel.ERROR;
+//    	}else if(ioLogLevel.equalsIgnoreCase("warn")){
+//    		logLevel = LogLevel.WARN;
+//    	}else if(ioLogLevel.equalsIgnoreCase("info")){
+//    		logLevel = LogLevel.INFO;
+//    	}else if(ioLogLevel.equalsIgnoreCase("debug")){
+//    		logLevel = LogLevel.DEBUG;
+//    	}else if(ioLogLevel.equalsIgnoreCase("trace")){
+//    		logLevel = LogLevel.TRACE;
+//    	}
+		
+		boolean debug = TcpProxyServer.getConfig().getBoolean("tcpProxyServer.debug");
+    	return debug;
 	}
 }

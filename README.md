@@ -52,7 +52,7 @@ tcpProxyServer {
 
 		ioThreadNum = 5
 	
-		ioLogLevel = info
+		debug = true
 }
 ```
   
