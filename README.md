@@ -18,7 +18,6 @@ Simple tutorial
 ####1.Edit application.conf in the release folder to add proxy hosts.
 ```javascript
 tcpProxyServer {
-
         hosts = [
                     {
 						localPort = 465
@@ -43,15 +42,10 @@ tcpProxyServer {
 					}
 				]
 
-
         so_backlog = 1000
-		
 		connect_timeout_millis = 15000
-	
 		so_timeout = 15000
-
 		ioThreadNum = 5
-	
 		ioLogLevel = info
 }
 ```
