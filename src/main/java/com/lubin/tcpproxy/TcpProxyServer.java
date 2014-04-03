@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +41,10 @@ public class TcpProxyServer {
 			b.group(bossGroup, workerGroup)
 				.channel(NioServerSocketChannel.class)
 				.childHandler(new FrontendInitializer())
-				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.SO_BACKLOG"))
+				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
 				.option(ChannelOption.SO_REUSEADDR, true)
-				.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.SO_TIMEOUT"))
-				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.CONNECT_TIMEOUT_MILLIS"))
+				.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
+				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connect_timeout_millis"))
 				.option(ChannelOption.SO_KEEPALIVE, true);
 //				.option(ChannelOption.AUTO_READ, false)
 
@@ -111,5 +112,25 @@ public class TcpProxyServer {
 
 	public static void main(String[] args) throws Exception {
 		new TcpProxyServer().run();
+	}
+	
+	
+	public static LogLevel getIoLogLevel(){
+		
+		LogLevel logLevel = LogLevel.ERROR;
+    	String ioLogLevel = TcpProxyServer.getConfig().getString("tcpProxyServer.ioLogLevel");
+    	if(ioLogLevel.equalsIgnoreCase("error")){
+    		logLevel = LogLevel.ERROR;
+    	}else if(ioLogLevel.equalsIgnoreCase("warn")){
+    		logLevel = LogLevel.WARN;
+    	}else if(ioLogLevel.equalsIgnoreCase("info")){
+    		logLevel = LogLevel.INFO;
+    	}else if(ioLogLevel.equalsIgnoreCase("debug")){
+    		logLevel = LogLevel.DEBUG;
+    	}else if(ioLogLevel.equalsIgnoreCase("trace")){
+    		logLevel = LogLevel.TRACE;
+    	}
+    	
+    	return logLevel;
 	}
 }

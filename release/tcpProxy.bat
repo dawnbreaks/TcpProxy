@@ -1,1 +1,1 @@
-java -cp ./dependency/*;./*   com.lubin.tcpproxy.TcpProxyServer
+java -cp ./dependency/*;./*;./config   com.lubin.tcpproxy.TcpProxyServer
