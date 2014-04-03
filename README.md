@@ -18,7 +18,6 @@ Simple tutorial
 ####1.Edit application.conf in the release folder to add proxy hosts.
 ```javascript
 tcpProxyServer {
-
         hosts = [
                     {
 						localPort = 465
