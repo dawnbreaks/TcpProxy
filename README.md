@@ -47,20 +47,3 @@ tcpProxyServer {
 }
 ```
   
-####2. startup server...
-```shell
-./tcpProxy.sh   or  ./tcpProxy.bat
-```
-
-Build
-========
-
-To build the JAR file of TcpProxy, you need to install Maven (http://maven.apache.org), then type the following command:
-
-    $ mvn package
-
-To generate project files (.project, .classpath) for Eclipse, do
-
-    $ mvn eclipse:eclipse
-
-
