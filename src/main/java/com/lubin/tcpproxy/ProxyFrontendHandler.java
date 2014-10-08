@@ -43,9 +43,9 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         b.group(inboundChannel.eventLoop())
         	.channel(ctx.channel().getClass())
         	.handler(new BackendInitializer(this))
-        	.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
+        	//.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
 			.option(ChannelOption.SO_REUSEADDR, true)
-			.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
+			//.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
 			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connect_timeout_millis"))
 			.option(ChannelOption.SO_KEEPALIVE, true);
         
