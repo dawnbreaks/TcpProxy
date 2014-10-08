@@ -20,5 +20,5 @@ then
 fi
 
 echo "Starting service....."
-nohup java -cp $currentDir/dependency/*:$currentDir/*:$currentDir/config   com.lubin.tcpproxy.TcpProxyServer  2>&1 >> $currentDir/tcpProxy.log  &
+nohup java  -server -XX:PermSize=24M -XX:MaxPermSize=64 -Xms128m -Xmx448m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:NewRatio=3 -cp $currentDir/dependency/*:$currentDir/*:$currentDir/config   com.lubin.tcpproxy.TcpProxyServer  2>&1 >> $currentDir/tcpProxy.log  &
 echo "Done....."
