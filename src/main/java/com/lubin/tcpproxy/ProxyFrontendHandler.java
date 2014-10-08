@@ -29,7 +29,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
      * add this property to avoid unnecessary lock to improve performance.
      * ( volatile keyword is unnecessary here) 
      */
-    private boolean outBoundChnnlReady =false;
+    private volatile boolean outBoundChnnlReady =false;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -93,6 +93,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    	System.out.println("ProxyFrontendHandler|exceptionCaught");
         cause.printStackTrace();
         close();
     }
