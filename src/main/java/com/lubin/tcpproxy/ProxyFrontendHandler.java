@@ -86,6 +86,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    	System.out.println("ProxyFrontendHandler|channelInactive");
         if (outboundChannel != null) {
             closeOnFlush(outboundChannel);
         }
