@@ -16,7 +16,7 @@ fi
 if [ -f $targetDir/$jarFileName ];
 then
   rm -f $currentDir/$jarFileName
-  cp -f $targetDir/$jarFileName $targetDir
+  cp -f $targetDir/$jarFileName $currentDir
 fi
 
 echo "Starting service....."
