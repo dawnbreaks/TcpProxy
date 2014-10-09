@@ -14,8 +14,12 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
+	
+	private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProxyFrontendHandler.class);
 
   
 	private LinkedList<Object> buffer = new LinkedList<Object> ();
@@ -86,7 +90,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	System.out.println("ProxyFrontendHandler|channelInactive");
+    	logger.info("ProxyFrontendHandler|channelInactive");
         if (outboundChannel != null) {
             closeOnFlush(outboundChannel);
         }
@@ -94,7 +98,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	System.out.println("ProxyFrontendHandler|exceptionCaught");
+    	logger.info("ProxyFrontendHandler|exceptionCaught");
         cause.printStackTrace();
         close();
     }

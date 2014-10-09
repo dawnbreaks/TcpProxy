@@ -3,8 +3,12 @@ package com.lubin.tcpproxy;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
+
+	 private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProxyBackendHandler.class);
 
 	private ProxyFrontendHandler proxyFrondtendHandle;
 
@@ -14,7 +18,7 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    	System.out.println("ProxyBackendHandler|channelInactive");
+    	logger.info("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.outBoundChannelReady();
     }
 
@@ -25,13 +29,13 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	System.out.println("ProxyBackendHandler|channelInactive");
+    	logger.info("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	System.out.println("ProxyBackendHandler|exceptionCaught");
+    	logger.info("ProxyBackendHandler|exceptionCaught");
         cause.printStackTrace();
         proxyFrondtendHandle.close();
     }
