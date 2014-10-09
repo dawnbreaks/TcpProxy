@@ -9,7 +9,7 @@ if [ "x$pid" != "x" ];
 then
     echo  "Killing service process." 
     kill  -9 $pid
-    sleep  4
+    sleep  1
 fi
 
 

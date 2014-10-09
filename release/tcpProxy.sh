@@ -7,9 +7,8 @@ jarFileName="TcpProxy-0.0.1-SNAPSHOT.jar"
 pid=`ps -ef|grep java|grep TcpProxyServer|awk '{print $2}'`
 if [ "x$pid" != "x" ];
 then
-    echo  "Killing service process." 
-    kill  -9 $pid
-    sleep  4
+    echo  "Service is still running...Start abort!" 
+    exit;
 fi
 
 

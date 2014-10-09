@@ -98,8 +98,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	logger.info("ProxyFrontendHandler|exceptionCaught");
-        cause.printStackTrace();
+    	logger.info("ProxyFrontendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         close();
     }
 
