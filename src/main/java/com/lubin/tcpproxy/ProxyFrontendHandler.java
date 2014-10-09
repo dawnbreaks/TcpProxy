@@ -29,7 +29,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
      * add this property to avoid unnecessary lock to improve performance.
      * ( volatile keyword is unnecessary here) 
      */
-    private boolean outBoundChnnlReady =false;
+    private volatile boolean outBoundChnnlReady =false;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -43,9 +43,9 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         b.group(inboundChannel.eventLoop())
         	.channel(ctx.channel().getClass())
         	.handler(new BackendInitializer(this))
-        	.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
+//        	.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
 			.option(ChannelOption.SO_REUSEADDR, true)
-			.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
+//			.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
 			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connect_timeout_millis"))
 			.option(ChannelOption.SO_KEEPALIVE, true);
         
@@ -93,6 +93,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    	System.out.println("ProxyFrontendHandler|exceptionCaught");
         cause.printStackTrace();
         close();
     }
