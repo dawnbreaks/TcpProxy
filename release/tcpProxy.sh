@@ -16,9 +16,18 @@ fi
 if [ -f $targetDir/$jarFileName ];
 then
   rm -f $currentDir/$jarFileName
+<<<<<<< HEAD
   cp -f $targetDir/$jarFileName $targetDir
 fi
 
 echo "Starting service....."
 nohup java -cp $currentDir/dependency/*:$currentDir/*:$currentDir/config   com.lubin.tcpproxy.TcpProxyServer  2>&1 >> $currentDir/tcpProxy.log  &
 echo "Done....."
+=======
+  cp -f $targetDir/$jarFileName $currentDir
+fi
+
+echo "Starting service....."
+nohup java  -server -XX:PermSize=24M -XX:MaxPermSize=64m -Xms128m -Xmx448m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:NewRatio=3 -cp $currentDir/dependency/*:$currentDir/*:$currentDir/config   com.lubin.tcpproxy.TcpProxyServer  2>&1 >> $currentDir/tcpProxy.log  &
+echo "Done....."
+>>>>>>> origin/master
