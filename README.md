@@ -15,7 +15,7 @@ Features
   
 Simple tutorial
 ========
-####1.Edit application.conf in the release folder to add proxy hosts.
+####1.Update config file named "application.conf".
 ```javascript
 tcpProxyServer {
 	hosts = [{
