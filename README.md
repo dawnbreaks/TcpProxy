@@ -30,15 +30,7 @@ tcpProxyServer {
 				localPort = 995
 				remoteHost = pop.gmail.com
 				remotePort = 995
-		 	},{
-				localPort = 25
-				remoteHost = smtp.qq.com
-				remotePort = 25
-			 },{
-				localPort = 143
-				remoteHost = imap.qq.com
-				remotePort = 143
-			 }]
+		 	}]
 	soBacklog =1000
 	connectTimeoutMillis = 15000
 	soTimeout = 15000
