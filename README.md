@@ -39,11 +39,11 @@ tcpProxyServer {
 				remoteHost = imap.qq.com
 				remotePort = 143
 			 }]
-	so_backlog = 1000
-	connect_timeout_millis = 15000
-	so_timeout = 15000
-	ioThreadNum = 5
-	debug = true
+	soBacklog =1000
+	connectTimeoutMillis = 15000
+	soTimeout = 15000
+	ioThreadNum = 16
+	debug = false
 }
 ```
   
