@@ -15,7 +15,7 @@ Features
   
 Simple tutorial
 ========
-####1.Update config file named "application.conf".
+####1.Update config file "application.conf".
 ```javascript
 tcpProxyServer {
 	hosts = [{
