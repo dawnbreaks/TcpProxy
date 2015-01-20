@@ -41,10 +41,10 @@ public class TcpProxyServer {
 			b.group(bossGroup, workerGroup)
 				.channel(NioServerSocketChannel.class)
 				.childHandler(new FrontendInitializer())
-				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
+				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.soBacklog"))
 				.option(ChannelOption.SO_REUSEADDR, true)
-				.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
-				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connect_timeout_millis"))
+				.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.soTimeout"))
+				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
 				.option(ChannelOption.SO_KEEPALIVE, true);
 //				.option(ChannelOption.AUTO_READ, false)
 
