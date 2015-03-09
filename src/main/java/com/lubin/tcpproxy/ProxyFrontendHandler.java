@@ -19,7 +19,7 @@ import com.lubin.tcpproxy.TcpProxyServer.ProxyHost;
 
 public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 	
-	private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProxyFrontendHandler.class);
+	private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyFrontendHandler.class);
 
   
 	private LinkedList<Object> buffer = new LinkedList<Object> ();
@@ -41,7 +41,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
         InetSocketAddress localAddress = (InetSocketAddress) inboundChannel.localAddress();
         int port = localAddress.getPort();
-        ProxyHost outboundRemoteHost = TcpProxyServer.getProxyHosts().get(port);
+        final ProxyHost outboundRemoteHost = TcpProxyServer.getProxyHosts().get(port);
   
         Bootstrap b = new Bootstrap();
         b.group(inboundChannel.eventLoop())
@@ -59,6 +59,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
             @Override
             public void operationComplete(final ChannelFuture channelFuture) throws Exception {
                 if(!channelFuture.isSuccess()){
+                    log.info("ProxyFrontendHandler|connection failed|"+outboundRemoteHost.getRemoteHost() + ":" + outboundRemoteHost.getRemotePort());
                     close();
                 }
             }
@@ -98,7 +99,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	logger.info("ProxyFrontendHandler|channelInactive");
+    	log.info("ProxyFrontendHandler|channelInactive");
         if (outboundChannel != null) {
             closeOnFlush(outboundChannel);
         }
@@ -106,7 +107,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	logger.info("ProxyFrontendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
+    	log.info("ProxyFrontendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         close();
     }
 
