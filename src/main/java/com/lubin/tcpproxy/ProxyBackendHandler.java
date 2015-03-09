@@ -8,7 +8,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 
 public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
-	 private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProxyBackendHandler.class);
+	 private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyBackendHandler.class);
 
 	private ProxyFrontendHandler proxyFrondtendHandle;
 
@@ -18,7 +18,7 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    	logger.info("ProxyBackendHandler|channelInactive");
+    	log.info("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.outBoundChannelReady();
     }
 
@@ -29,19 +29,19 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	logger.info("ProxyBackendHandler|channelInactive");
+    	log.info("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.close();
     }
     
-//    @Override
-//    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-//        logger.info("ProxyBackendHandler|channelUnregistered");
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        log.info("ProxyBackendHandler|channelUnregistered");
 //        proxyFrondtendHandle.close();
-//    }
+    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	logger.info("ProxyBackendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
+    	log.info("ProxyBackendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         proxyFrondtendHandle.close();
     }
 }
