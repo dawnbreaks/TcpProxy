@@ -1,11 +1,6 @@
 
 package com.lubin.tcpproxy;
 
-import java.net.InetSocketAddress;
-import java.util.LinkedList;
-
-import com.lubin.tcpproxy.TcpProxyServer.ProxyHost;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -16,6 +11,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
+
+import java.net.InetSocketAddress;
+import java.util.LinkedList;
+
+import com.lubin.tcpproxy.TcpProxyServer.ProxyHost;
 
 public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 	
@@ -50,11 +50,19 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         	//.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
 			.option(ChannelOption.SO_REUSEADDR, true)
 			//.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
-			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connect_timeout_millis"))
+			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
 			.option(ChannelOption.SO_KEEPALIVE, true);
         
         ChannelFuture f = b.connect(outboundRemoteHost.getRemoteHost(), outboundRemoteHost.getRemotePort());
         outboundChannel = f.channel();
+        f.addListener(new ChannelFutureListener(){
+            @Override
+            public void operationComplete(final ChannelFuture channelFuture) throws Exception {
+                if(!channelFuture.isSuccess()){
+                    close();
+                }
+            }
+         });
     }
 
     public Channel getInboundChannel() {

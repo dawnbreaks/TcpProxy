@@ -33,11 +33,11 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
     	proxyFrondtendHandle.close();
     }
     
-    @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        logger.info("ProxyBackendHandler|channelUnregistered");
-        proxyFrondtendHandle.close();
-    }
+//    @Override
+//    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+//        logger.info("ProxyBackendHandler|channelUnregistered");
+//        proxyFrondtendHandle.close();
+//    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
