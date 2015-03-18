@@ -6,7 +6,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import com.typesafe.config.ConfigValue;
 
 public class TcpProxyServer {
 
+    private static final InternalLogger log = InternalLoggerFactory.getInstance(TcpProxyServer.class);
+    
 	private static Config conf = ConfigFactory.load();
 	
 	private static HashMap<Integer, ProxyHost> proxyHosts = new HashMap<Integer, ProxyHost>();
@@ -50,11 +53,15 @@ public class TcpProxyServer {
 
 			ArrayList<Channel> allchannels =new ArrayList<Channel>();
 			ArrayList<ProxyHost> hostList = getProxyHostList();
+			log.info("TcpProxy config: ");
 			for(ProxyHost host : hostList) {
 				proxyHosts.put(host.localPort, host);
+				log.info("local port = " + host.localPort + "|remote host=" + host.remoteHost + "|remote port=" + host.remotePort );
 				Channel ch = b.bind(host.localPort).sync().channel();
 				allchannels.add(ch);
 			}
+			
+			log.info("TcpProxy server ready for connections...");
 	
 			for(Channel ch : allchannels){
 				ch.closeFuture().sync();
