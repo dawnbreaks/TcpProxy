@@ -46,10 +46,8 @@ public class TcpProxyServer {
 				.childHandler(new FrontendInitializer())
 				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.soBacklog"))
 				.option(ChannelOption.SO_REUSEADDR, true)
-				.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.soTimeout"))
 				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
 				.option(ChannelOption.SO_KEEPALIVE, true);
-//				.option(ChannelOption.AUTO_READ, false)
 
 			ArrayList<Channel> allchannels =new ArrayList<Channel>();
 			ArrayList<ProxyHost> hostList = getProxyHostList();
@@ -121,23 +119,7 @@ public class TcpProxyServer {
 		new TcpProxyServer().run();
 	}
 	
-	
 	public static boolean isDebug(){
-		
-//		LogLevel logLevel = LogLevel.ERROR;
-    	
-//    	if(ioLogLevel.equalsIgnoreCase("error")){
-//    		logLevel = LogLevel.ERROR;
-//    	}else if(ioLogLevel.equalsIgnoreCase("warn")){
-//    		logLevel = LogLevel.WARN;
-//    	}else if(ioLogLevel.equalsIgnoreCase("info")){
-//    		logLevel = LogLevel.INFO;
-//    	}else if(ioLogLevel.equalsIgnoreCase("debug")){
-//    		logLevel = LogLevel.DEBUG;
-//    	}else if(ioLogLevel.equalsIgnoreCase("trace")){
-//    		logLevel = LogLevel.TRACE;
-//    	}
-		
 		boolean debug = TcpProxyServer.getConfig().getBoolean("tcpProxyServer.debug");
     	return debug;
 	}

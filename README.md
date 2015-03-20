@@ -33,7 +33,6 @@ tcpProxyServer {
 		 	}]
 	soBacklog =1000
 	connectTimeoutMillis = 15000
-	soTimeout = 15000
 	ioThreadNum = 16
 	debug = false
 }
