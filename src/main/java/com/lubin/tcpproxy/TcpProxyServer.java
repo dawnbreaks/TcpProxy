@@ -1,6 +1,7 @@
 package com.lubin.tcpproxy;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -37,7 +38,6 @@ public class TcpProxyServer {
 	private void run() throws Exception {
 
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		
 		EventLoopGroup workerGroup = new NioEventLoopGroup(TcpProxyServer.getConfig().getInt("tcpProxyServer.ioThreadNum"));
 		try {
 			ServerBootstrap b = new ServerBootstrap();
@@ -47,7 +47,10 @@ public class TcpProxyServer {
 				.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.soBacklog"))
 				.option(ChannelOption.SO_REUSEADDR, true)
 				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
-				.option(ChannelOption.SO_KEEPALIVE, true);
+				.option(ChannelOption.SO_KEEPALIVE, true)
+				.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				.childOption(ChannelOption.AUTO_READ, false);
 
 			ArrayList<Channel> allchannels =new ArrayList<Channel>();
 			ArrayList<ProxyHost> hostList = getProxyHostList();

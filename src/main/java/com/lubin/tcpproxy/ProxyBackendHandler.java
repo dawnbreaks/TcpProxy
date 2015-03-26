@@ -18,7 +18,7 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    	log.info("ProxyBackendHandler|channelInactive");
+    	log.debug("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.outBoundChannelReady();
     }
 
@@ -29,13 +29,13 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	log.info("ProxyBackendHandler|channelInactive");
+    	log.debug("ProxyBackendHandler|channelInactive");
     	proxyFrondtendHandle.close();
     }
     
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log.info("ProxyBackendHandler|channelUnregistered");
+        log.debug("ProxyBackendHandler|channelUnregistered");
 //        proxyFrondtendHandle.close();
     }
 
