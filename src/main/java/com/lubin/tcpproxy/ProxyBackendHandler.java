@@ -44,4 +44,13 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
     	log.info("ProxyBackendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         proxyFrondtendHandle.close();
     }
+    
+    @Override
+    public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
+        if(ctx.channel().isWritable()){
+            proxyFrondtendHandle.setAutoRead(true);
+        }else{
+            proxyFrondtendHandle.setAutoRead(false);
+        }
+    }
 }

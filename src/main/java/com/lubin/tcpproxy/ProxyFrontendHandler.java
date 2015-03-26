@@ -127,6 +127,12 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         inboundMsgBuffer.clear();
 	}
 	
+	//call by 
+	//To avoid write too fast to outbouond connection, We need to disable inbound auto read if outbound 's writebuffer is full
+	public void setAutoRead(boolean autoRead){
+	    inboundChannel.config().setAutoRead(autoRead);
+	}
+	
 	private void release(Object obj){
 	    if(obj instanceof ByteBuf){
             ((ByteBuf)obj).release();
