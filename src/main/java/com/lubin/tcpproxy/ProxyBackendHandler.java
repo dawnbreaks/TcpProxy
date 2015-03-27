@@ -8,9 +8,9 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 
 public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
-	 private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyBackendHandler.class);
+    private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyBackendHandler.class);
 
-	private ProxyFrontendHandler proxyFrondtendHandle;
+    private ProxyFrontendHandler proxyFrondtendHandle;
 
     public ProxyBackendHandler(ProxyFrontendHandler proxyFrondtendHandle) {
         this.proxyFrondtendHandle=proxyFrondtendHandle;
@@ -18,33 +18,33 @@ public class ProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    	log.debug("ProxyBackendHandler|channelInactive");
-    	proxyFrondtendHandle.outBoundChannelReady();
+        log.debug("ProxyBackendHandler|channelInactive");
+        proxyFrondtendHandle.outBoundChannelReady();
     }
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
-    	proxyFrondtendHandle.getInboundChannel().writeAndFlush(msg);
+        proxyFrondtendHandle.getInboundChannel().writeAndFlush(msg);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	log.debug("ProxyBackendHandler|channelInactive");
-    	proxyFrondtendHandle.close();
+        log.debug("ProxyBackendHandler|channelInactive");
+        proxyFrondtendHandle.close();
     }
-    
+
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         log.debug("ProxyBackendHandler|channelUnregistered");
-//        proxyFrondtendHandle.close();
+        //        proxyFrondtendHandle.close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	log.info("ProxyBackendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
+        log.info("ProxyBackendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         proxyFrondtendHandle.close();
     }
-    
+
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
         if(ctx.channel().isWritable()){

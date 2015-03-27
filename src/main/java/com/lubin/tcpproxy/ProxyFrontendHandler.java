@@ -19,39 +19,39 @@ import java.util.LinkedList;
 import com.lubin.tcpproxy.TcpProxyServer.ProxyHost;
 
 public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
-	
-	private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyFrontendHandler.class);
 
-	private Channel inboundChannel;
+    private static final InternalLogger log = InternalLoggerFactory.getInstance(ProxyFrontendHandler.class);
+
+    private Channel inboundChannel;
     private Channel outboundChannel;
     private LinkedList<Object> inboundMsgBuffer = new LinkedList<Object> ();
-    
+
     enum ConnectionStatus{
         init,
         outBoundChnnlConnecting,      //inbound connected and outbound connecting  
         outBoundChnnlReady,           //inbound connected and outbound connected    
         closing                       //closing inbound and outbound connection
     }
-    
+
     private ConnectionStatus connectStatus = ConnectionStatus.init;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-    	inboundChannel = ctx.channel();
+        inboundChannel = ctx.channel();
         InetSocketAddress localAddress = (InetSocketAddress) inboundChannel.localAddress();
         int port = localAddress.getPort();
         final ProxyHost outboundRemoteHost = TcpProxyServer.getProxyHosts().get(port);
-  
+
         Bootstrap b = new Bootstrap();
         b.group(inboundChannel.eventLoop())
-        	.channel(ctx.channel().getClass())
-        	.handler(new BackendInitializer(this))
-        	//.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
-			.option(ChannelOption.SO_REUSEADDR, true)
-			//.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
-			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
-			.option(ChannelOption.SO_KEEPALIVE, true);
-        
+        .channel(ctx.channel().getClass())
+        .handler(new BackendInitializer(this))
+        //.option(ChannelOption.SO_BACKLOG, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_backlog"))
+        .option(ChannelOption.SO_REUSEADDR, true)
+        //.option(ChannelOption.SO_TIMEOUT, TcpProxyServer.getConfig().getInt("tcpProxyServer.so_timeout"))
+        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, TcpProxyServer.getConfig().getInt("tcpProxyServer.connectTimeoutMillis"))
+        .option(ChannelOption.SO_KEEPALIVE, true);
+
         ChannelFuture f = b.connect(outboundRemoteHost.getRemoteHost(), outboundRemoteHost.getRemotePort());
         connectStatus = ConnectionStatus.outBoundChnnlConnecting;
         outboundChannel = f.channel();
@@ -63,12 +63,12 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
                     close();
                 }
             }
-         });
+        });
     }
 
     public Channel getInboundChannel() {
-		return inboundChannel;
-	}
+        return inboundChannel;
+    }
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -91,13 +91,13 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	log.debug("ProxyFrontendHandler|channelInactive");
-    	close();
+        log.debug("ProxyFrontendHandler|channelInactive");
+        close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	log.debug("ProxyFrontendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
+        log.debug("ProxyFrontendHandler|exceptionCaught|remoteAddress="+ctx.channel().remoteAddress(), cause);
         close();
     }
 
@@ -114,28 +114,28 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
             release(obj);
         }
         inboundMsgBuffer.clear();
-    	closeOnFlush(inboundChannel);
-    	closeOnFlush(outboundChannel);
+        closeOnFlush(inboundChannel);
+        closeOnFlush(outboundChannel);
     }
-    
-	public void outBoundChannelReady() {
-	    inboundChannel.config().setAutoRead(true);
-	    connectStatus = ConnectionStatus.outBoundChnnlReady;
+
+    public void outBoundChannelReady() {
+        inboundChannel.config().setAutoRead(true);
+        connectStatus = ConnectionStatus.outBoundChnnlReady;
         for(Object obj : inboundMsgBuffer){
             outboundChannel.writeAndFlush(obj);
         }
         inboundMsgBuffer.clear();
-	}
-	
-	//call by 
-	//To avoid write too fast to outbouond connection, We need to disable inbound auto read if outbound 's writebuffer is full
-	public void setAutoRead(boolean autoRead){
-	    inboundChannel.config().setAutoRead(autoRead);
-	}
-	
-	private void release(Object obj){
-	    if(obj instanceof ByteBuf){
+    }
+
+    //call by 
+    //To avoid write too fast to outbouond connection, We need to disable inbound auto read if outbound 's writebuffer is full
+    public void setAutoRead(boolean autoRead){
+        inboundChannel.config().setAutoRead(autoRead);
+    }
+
+    private void release(Object obj){
+        if(obj instanceof ByteBuf){
             ((ByteBuf)obj).release();
         }
-	}
+    }
 }

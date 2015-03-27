@@ -10,10 +10,10 @@ public class FrontendInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     public void initChannel(SocketChannel ch) throws Exception {
-    	
-    	if(TcpProxyServer.isDebug()){
-    		ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO));
-    	}
-		ch.pipeline().addLast(new ProxyFrontendHandler());
+
+        if(TcpProxyServer.isDebug()){
+            ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO));
+        }
+        ch.pipeline().addLast(new ProxyFrontendHandler());
     }
 }
